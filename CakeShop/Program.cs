@@ -1,14 +1,15 @@
 using CakeShop.Data;
 using CakeShop.Models; // 確保 using 了你的模型命名空間
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;//dotnet add package Microsoft.EntityFrameworkCore.InMemory
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString)); // 或者 UseSqlite, UseNpgsql 等
+    options.UseInMemoryDatabase("FakeDb")); // 或者 UseSqlite, UseNpgsql 等
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // ====================> 檢查並修改這一區塊 <====================
